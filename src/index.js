@@ -4,7 +4,7 @@ const app = document.getElementById("app");
 app.innerHTML = `
     <h1>JavaScript HTML5 APIs</h1>
     <div class="uploader">
-        <div class="dragme" draggable="true"></div>
+        <div id="item-0" class="dragme" draggable="true"></div>
         <div class="dropzone">
             drag here
         </div>
@@ -43,14 +43,33 @@ app.innerHTML = `
 `;
 
 const init = function () {
+  const dragMe = document.querySelector(".dragme");
   const dropZone = document.querySelector(".dropzone");
 
+  dragMe.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", e.target.id);
+    // console.log(e.dataTransfer);
+  });
   dropZone.addEventListener("dragenter", (e) => {
     e.target.classList.add("active");
   });
 
   dropZone.addEventListener("dragleave", (e) => {
     e.target.classList.remove("active");
+  });
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.dataTransfer.dropEffect = "move";
+  });
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.target.classList.remove("active");
+    e.stopPropagation();
+    const element = document.getElementById(
+      e.dataTransfer.getData("text/plain")
+    );
+    dropZone.append(element);
   });
 };
 
