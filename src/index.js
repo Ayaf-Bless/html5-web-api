@@ -34,12 +34,24 @@ app.innerHTML = `
         width: 50px;
         height: 50px;
     }
+    .active {
+    background: #ebfff6;
+    border-color: #24b373;
+    }
     </style>
 
 `;
 
 const init = function () {
-  console.log("Hello");
+  const dropZone = document.querySelector(".dropzone");
+
+  dropZone.addEventListener("dragenter", (e) => {
+    e.target.classList.add("active");
+  });
+
+  dropZone.addEventListener("dragleave", (e) => {
+    e.target.classList.remove("active");
+  });
 };
 
 if ("draggable" in document.createElement("div")) {
